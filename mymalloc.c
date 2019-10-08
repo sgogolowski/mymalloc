@@ -13,7 +13,7 @@ Node* head;
 head->sizeOfBytes=4080;
 head->next=NULL;
 head-> isEmpty=1;
-
+testing branches and merging
 void* mymalloc(size_t size, __FILE__, __LINE__){
   if(size>4080)
     printf("You are asking for too much memory at file: %s line %d\n",__FILE__,__LINE__);		

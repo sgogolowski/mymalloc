@@ -1,32 +1,39 @@
 #include "mymalloc.h"
 #define METADATA 16
 
+static char mymemory[MAXSIZE];
+
 typedef struct node{
 	
   int sizeOfBytes;
   struct Node* next;
   int isEmpty;
 }Node;
-Node head=;
-head->sizeOfBytes=4080;
-head->next=NULL;
-head-> isEmpty=1;
-(Node*)(mymemory[0])=head;
+Node head={
+  .sizeOfBytes=4080,
+  .next=NULL,
+  .isEmpty=1;
+};
+*(Node*)(mymemory[0])=head;
 
 int main(){
 
-	printf("%d\n",mymemory[0]->sizeOfBytes);
+	printf("%d\n",(mymemory[0])->sizeOfBytes);
 	return 0;
 
 
 
 }
 
-void* mymalloc(size_t size, __FILE__, __LINE__){
+void myfree(char* ptr, char* filename,int linenum){
+
+}
+
+void* mymalloc(size_t size, char* filename, int linenum){
   if(size>4080)
-    printf("You are asking for too much memory at file: %s line %d\n",__FILE__,__LINE__);		
-  int  availableSpace=findSpace(size);
-  if(availableSpace == NULL){
+    printf("You are asking for too much memory at file: %s line %d\n",filename, linenum);		
+  Node*  availableSpace=findSpace(size);
+  if(*availableSpace == NULL){
     printf("There is not space available for your %d bytes\n",size);
   }
   else{
@@ -41,22 +48,22 @@ void* mymalloc(size_t size, __FILE__, __LINE__){
 
 }
 
-int splitMemory(Node* memory,size_t sizeRequested){
+void splitMemory(Node* memory,size_t sizeRequested){
   
   int freeMemory = (memory->sizeOfBytes) - sizeRequested;
   Node reqMem={
-    sizeOfBytes=sizeRequested;
-    isEmpty=0;
-    next=memory;
-  }
-  (Node*)(&memory)=reqMem;
-  (Node*)((&memory)+ reqMem.sizeOfBytes + METADATA ) = memory; 
+    .sizeOfBytes=sizeRequested;
+    .isEmpty=0;
+    .next=memory;
+  };
+  *(Node*)(&memory)=reqMem;
+  *(Node*)((&memory)+ reqMem.sizeOfBytes + METADATA ) = memory; 
   memory->sizeOfBytes = (memory->sizeOfBytes)-sizeRequested;
   
-  memory->isEmpty=1;
-  memory->next=null;
+  //memory->isEmpty=1;
+  //memory->next=null;
   
-  return &reqMem;
+  //return &reqMem;
   
 }
 
@@ -78,7 +85,7 @@ Node* findSpace(size_t sizeRequested){
     }
   current=current->next;
   }
-  return NULL;
+  return current;
 
 
 }
